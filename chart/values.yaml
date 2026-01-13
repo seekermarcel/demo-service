@@ -1,8 +1,8 @@
 replicaCount: 2
 
 image:
-  repository: demo-service
-  tag: dev
+  repository: ghcr.io/seekermarcel/demo-service
+  tag: latest
   pullPolicy: IfNotPresent
 
 service:
