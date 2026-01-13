@@ -1,0 +1,53 @@
+replicaCount: 2
+
+image:
+  repository: demo-service
+  tag: dev
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+env:
+  # Demonstrate readiness delay
+  STARTUP_DELAY: "2s"
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 250m
+    memory: 128Mi
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+
+ingress:
+  enabled: false
+  className: nginx
+  host: demo.localhost
+  path: /
+  tls:
+    enabled: false
+    secretName: demo-localhost-tls
+
+networkPolicy:
+  enabled: true
+  # Allow ingress from ingress-nginx namespace (common pattern)
+  allowFromIngressNginx: true
+  # Allow egress to kube-dns
+  allowEgressDNS: true
+
+serviceAccount:
+  create: true
+  name: ""
