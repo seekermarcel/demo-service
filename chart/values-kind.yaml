@@ -1,0 +1,8 @@
+ingress:
+  enabled: true
+  className: nginx
+  host: demo.localhost
+  path: /
+  tls:
+    enabled: false
+    secretName: demo-localhost-tls
